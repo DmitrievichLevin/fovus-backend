@@ -14,7 +14,7 @@ jobs:
     - uses: dmitrievichlevin/s3-check-bucket-action@master
       id: "bucket_check"
       env:
-        AWS_DEFAULT_REGION: 'us-east-2' 
+        AWS_REGION: 'us-east-2' 
         AWS_S3_BUCKET: 'fovcus-coding-challenge'
     - run: |
         aws s3 mb s3://fovcus-coding-challenge
