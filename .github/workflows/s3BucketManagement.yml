@@ -1,0 +1,22 @@
+
+name: addS3BucketAWS
+
+on:
+  push:
+    branches:
+      - main
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: dmitrievichlevin/s3-check-bucket-action@master
+      id: "bucket_check"
+      env:
+        AWS_DEFAULT_REGION: 'us-east-2' 
+        AWS_S3_BUCKET: 'fovcus-coding-challenge'
+    - run: |
+        aws s3 mb s3://fovcus-coding-challenge
+      if: steps.bucket_check.outputs.exists == 'false'
+        
