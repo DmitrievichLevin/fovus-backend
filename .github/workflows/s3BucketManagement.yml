@@ -39,6 +39,7 @@ jobs:
       - name: Echo AWS VARS
         id: s3_output
         run: |
-          aws s3 mb s3://${{env.AWS_S3_BUCKET}} --region ${{env.AWS_REGION}}
-      - run: |
             aws s3api head-bucket --bucket ${{env.AWS_S3_BUCKET}} --output 'text'
+      - run: |
+          aws s3 mb s3://${{env.AWS_S3_BUCKET}} --region ${{env.AWS_REGION}}
+      
