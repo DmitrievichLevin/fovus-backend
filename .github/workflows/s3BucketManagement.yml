@@ -39,5 +39,5 @@ jobs:
       - name: Check Existing Bucket
         run: |
           aws s3 mb s3://${{env.AWS_S3_BUCKET}} --region ${{env.AWS_REGION}}
-        if: steps.bucket_check.outputs.exists == 'false'
+        if: steps.bucket_check.outputs.BUCKET_EXISTS == 'false'
       
