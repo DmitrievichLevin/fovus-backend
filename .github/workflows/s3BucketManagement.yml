@@ -9,7 +9,7 @@ on:
 env:
     AWS_REGION: 'us-east-2'
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    AWS_S3_BUCKET: 'c1edd274-32f7-4c87-aa18-720e1e3379e7'
+    AWS_S3_BUCKET: 'c1edd274-32f2kjgu7-4c87-aa18-720e1e3379e7'
 permissions:
   contents: write 
 jobs:
@@ -39,5 +39,5 @@ jobs:
       - name: Check Existing Bucket
         run: |
           aws s3 mb s3://${{env.AWS_S3_BUCKET}} --region ${{env.AWS_REGION}}
-        if: steps.bucket_check.outputs.BUCKET_EXISTS == 'false'
+        if: env.BUCKET_EXISTS == 'false'
       
