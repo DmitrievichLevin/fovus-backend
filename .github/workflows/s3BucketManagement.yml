@@ -37,8 +37,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ steps.creds.outputs.aws-access-key-id }}
           AWS_SECRET_ACCESS_KEY: ${{ steps.creds.outputs.aws-secret-access-key }}
       - name: Check Existing Bucket
-        id: s3_outputt'
-      - run: |
+        run: |
           aws s3 mb s3://${{env.AWS_S3_BUCKET}} --region ${{env.AWS_REGION}}
-          if: steps.s3_output.outputs.exists == 'false'
+          if: steps.bucket_check.outputs.exists == 'false'
       
