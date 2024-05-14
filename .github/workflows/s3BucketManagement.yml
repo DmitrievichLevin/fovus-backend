@@ -9,7 +9,7 @@ on:
 env:
     AWS_REGION: 'us-east-2'
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    AWS_S3_BUCKET: 'c1edd274-32f2kjtgu7-4c87-aa18-720e1e3379e7'
+    AWS_S3_BUCKET: 'c1edd274-32f2kjtgu7-4c87-aa18-720e1e3379e7' # Add Unique Bucket Name
 permissions:
   contents: write 
 jobs:
@@ -36,7 +36,7 @@ jobs:
         with:
           AWS_ACCESS_KEY_ID: ${{ steps.creds.outputs.aws-access-key-id }}
           AWS_SECRET_ACCESS_KEY: ${{ steps.creds.outputs.aws-secret-access-key }}
-      - name: Check Existing Bucket
+      - name: Create Bucket
         run: |
           aws s3 mb s3://${{env.AWS_S3_BUCKET}} --region ${{env.AWS_REGION}}
         if: env.BUCKET_EXISTS == 'false'
