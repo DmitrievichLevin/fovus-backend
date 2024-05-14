@@ -9,7 +9,7 @@ on:
 env:
     AWS_REGION: 'us-east-2'
     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    AWS_S3_BUCKET: 'c1edd274-32f7-4c8832-aa18911-720e1e3379e7'
+    AWS_S3_BUCKET: 'c1edd274-32f7-4c87-aa18-720e1e3379e7'
 permissions:
   contents: write 
 jobs:
