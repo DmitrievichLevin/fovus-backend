@@ -6,17 +6,38 @@ on:
     branches:
       - main
       - master
+env:
+    AWS_REGION: 'us-east-2'
+    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+permissions:
+  contents: write 
 jobs:
-  build:
+  AssumeRoleAndCallIdentity:
     runs-on: ubuntu-latest
+    permissions:
+          id-token: write
+          contents: read
     steps:
-    - uses: actions/checkout@v4
-    - uses: dmitrievichlevin/s3-check-bucket-action@master
-      id: "bucket_check"
-      env:
-        AWS_REGION: 'us-east-2' 
-        AWS_S3_BUCKET: 'fovcus-coding-challenge'
-    - run: |
-        aws s3 mb s3://fovcus-coding-challenge
-      if: steps.bucket_check.outputs.exists == 'false'
-        
+      - uses: actions/checkout@v4
+      - name: configure aws credentials
+        id: creds
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: arn:aws:iam::533267039295:role/github_workflow 
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Sts GetCallerIdentity
+        run: |
+          aws sts get-caller-identity
+      - name: S3 Bucket Verification
+        id: bucket_check
+        uses: dmitrievichlevin/s3-check-bucket-action@master
+        with:
+          AWS_ACCESS_KEY_ID: ${{ steps.creds.outputs.aws-access-key-id }}
+          AWS_SECRET_ACCESS_KEY: ${{ steps.creds.outputs.aws-secret-access-key }}
+      - name: Echo AWS VARS
+        id: s3_output
+        run: |
+          aws s3 mb s3://${{env.AWS_S3_BUCKET}} --region ${{env.AWS_REGION}}
+      - run: |
+            aws s3api head-bucket --bucket ${{env.AWS_S3_BUCKET}} --output 'text'
